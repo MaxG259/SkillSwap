@@ -5,67 +5,41 @@
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+## Технологии
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+React 18 — современная библиотека для построения интерфейсов
+TypeScript — статическая типизация для масштабируемого и безопасного кода
+React Router v6 — клиентская маршрутизация и многошаговые формы
+CSS Modules — изолированные стили компонентов
+react-datepicker (выбор даты рождения)
+date-fns — работа с датами и локалями
+Vite — быстрая сборка/разработка фронтенда
+ESLint + Prettier — автоформатирование и поддержка качества кода
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Что сделано лично мной
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Регистрация и общий лейаут
+Реализован общий лейаут для всех шагов регистрации: шапка с логотипом и кнопкой закрытия, прогресс‑бар “Шаг X из 3”, единый контентный контейнер.
+Настроен вложенный роутинг для многошаговой регистрации: /register/step-1, /register/step-2, /register/step-3, каждый шаг подключён как отдельный компонент.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Базовые данные
+Сверстана форма первого шага регистрации с контролируемыми инпутами.
+Настроено переключение на следующий шаг через программную навигацию React Router.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Профиль пользователя
+Реализованы поля профиля: имя, дата рождения, пол, город, интересующие категории и подкатегории навыков.
+Подключён и настроен react-datepicker для выбора даты рождения (локаль ru, формат dd.MM.yyyy, запрет будущих дат) с лёгкой кастомизацией под дизайн макета.
+Селекты для категорий и подкатегорий работают от общих справочников, подкатегория зависит от выбранной категории.
+Настроены кнопки “Назад” и “Продолжить” для перехода между шагами регистрации.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Навык для обмена
+Сверстана форма добавления навыка: название, категория и подкатегория, текстовое описание.
+Реализован визуальный блок загрузки изображения навыка (input type="file" в стилизованном контейнере с подсказкой и иконкой).
+Добавлены кнопки навигации по шагам, согласованные с общим лейаутом и роутингом.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Хедер, главная и интеграции
+Вынесен и использован общий Header с режимами “гость / авторизованный пользователь”.
+Для главной страницы настроена навигация по кнопкам “Войти” и “Зарегистрироваться” на соответствующие маршруты (/auth/login, /register/step-1).
+Подключены и использованы JSON‑данные (пользователи, навыки, категории, подкатегории) для витрины и фильтров.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
